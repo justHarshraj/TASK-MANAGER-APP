@@ -43,7 +43,7 @@ TASK MANAGER APP/
 │   └── themeToggle.js       # Dark/Light mode theme control
 ├── index.html               # Semantic HTML markup, structured SEO, and layout
 ├── README.md                # Project documentation
-└── DESIGN.md                # Design specifications
+
 ```
 
 ---
