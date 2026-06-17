@@ -4,6 +4,10 @@ TaskMaster Pro is a premium, high-performance, framework-free task management ap
 
 Featuring a dark/light interface inspired by Vercel's design aesthetics, this project is built both as a fully functional productivity tool and an educational platform demonstrating key browser mechanics, DOM manipulation strategies, and event workflows.
 
+## 🔗 Live Link
+
+Check out the live deployment of TaskMaster Pro here: [https://justharshraj.github.io/TASK-MANAGER-APP/](https://justharshraj.github.io/TASK-MANAGER-APP/)
+
 ---
 
 ## 🚀 Features
