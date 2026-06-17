@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TaskMaster Pro — A premium task management application built with Vanilla JS. Create, edit, filter, and organize your tasks with a stunning Vercel-inspired interface.">
+    <title>TaskMaster Pro — Manage your tasks.</title>
+    <!-- Fonts: Inter (Geist substitute) + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-theme="dark">
+
+    <!-- ═══════════════════════════════════════════════════════
+         Nav Bar (DESIGN.md: nav-bar component)
+         ═══════════════════════════════════════════════════════ -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="logo">
+                <svg width="22" height="22" viewBox="0 0 76 65" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="currentColor"/>
+                </svg>
+                <span class="logo-text">TaskMaster <span class="gradient-text">Pro</span></span>
+            </div>
+            <button id="theme-toggle" class="theme-switch" aria-label="Toggle theme">
+                <span class="icon sun-icon">☀️</span>
+                <span class="icon moon-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- ═══════════════════════════════════════════════════════
+             Hero Band — Mesh gradient backdrop + Dashboard Stats
+             (DESIGN.md: hero-band + stat counters)
+             ═══════════════════════════════════════════════════════ -->
+        <section class="hero-band" id="hero-section">
+            <div class="hero-gradient-bg" aria-hidden="true"></div>
+            <div class="hero-content">
+                <span class="hero-eyebrow">task manager</span>
+                <h1 class="hero-headline">Organize everything.<br>Ship faster.</h1>
+                <p class="hero-body">A powerful task manager built with Vanilla JS &amp; DOM APIs. No frameworks, just craft.</p>
+            </div>
+            <div class="stats" id="dashboard-stats">
+                <div class="stat-box" id="stat-total">
+                    <span class="stat-label">Total Tasks</span>
+                    <span id="total-counter" class="stat-value">0</span>
+                </div>
+                <div class="stat-box" id="stat-completed">
+                    <span class="stat-label">Completed</span>
+                    <span id="completed-counter" class="stat-value text-success">0</span>
+                </div>
+                <div class="stat-box" id="stat-pending">
+                    <span class="stat-label">Pending</span>
+                    <span id="pending-counter" class="stat-value text-warning">0</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="task-manager-content">
+            <div class="task-manager-inner">
+
+                <!-- ═══════════════════════════════════════════════════
+                     Task Creation Card (DESIGN.md: card-marketing + form-input)
+                     ═══════════════════════════════════════════════════ -->
+                <section id="task-creation" class="card glass">
+                    <h2>Create a new task.</h2>
+                    <form id="task-form">
+                        <div class="form-group">
+                            <input type="text" id="task-title" placeholder="What needs to be done?" required autocomplete="off">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group select-wrapper">
+                                <select id="task-category" required>
+                                    <option value="" disabled selected>Select category</option>
+                                    <option value="work">💼 Work</option>
+                                    <option value="personal">👤 Personal</option>
+                                    <option value="study">📚 Study</option>
+                                    <option value="health">🏋️ Health</option>
+                                    <option value="other">📌 Other</option>
+                                </select>
+                            </div>
+                            <button type="submit" id="add-task-btn" class="btn btn-primary">
+                                <span style="position:relative;z-index:1">Add Task →</span>
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- ═══════════════════════════════════════════════════
+                     Controls: Search, Filter, Clear All
+                     (DESIGN.md: tab-ghost pills + form-input-sm)
+                     ═══════════════════════════════════════════════════ -->
+                <section id="task-controls" class="controls-bar">
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Search tasks...">
+                    </div>
+                    <div class="filters" id="category-filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="work">Work</button>
+                        <button class="filter-btn" data-filter="personal">Personal</button>
+                        <button class="filter-btn" data-filter="study">Study</button>
+                        <button class="filter-btn" data-filter="health">Health</button>
+                    </div>
+                    <button id="clear-all-btn" class="btn btn-danger btn-sm">Clear All</button>
+                </section>
+
+                <!-- ═══════════════════════════════════════════════════
+                     Task List (Event Delegation Target)
+                     ═══════════════════════════════════════════════════ -->
+                <section id="task-list" class="task-container">
+                    <div class="empty-state">
+                        <p>No tasks yet. Add one above to get started.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════
+             Browser Rendering Pipeline
+             (DESIGN.md: showcase-band-dark pattern)
+             ═══════════════════════════════════════════════════════ -->
+        <section id="rendering-pipeline" class="card glass full-width pipeline-section">
+            <h2>Browser rendering pipeline.</h2>
+            <p class="section-desc">How HTML and CSS become pixels on the screen.</p>
+            <div id="pipeline-container" class="pipeline-container">
+                <!-- Cards will be dynamically injected here via pipeline.js -->
+            </div>
+        </section>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════
+         Footer (DESIGN.md: footer component)
+         ═══════════════════════════════════════════════════════ -->
+    <footer class="app-footer">
+        <p>Built with Vanilla JS &amp; DOM APIs — No frameworks</p>
+    </footer>
+
+    <!-- Modules -->
+    <script src="js/storage.js"></script>
+    <script src="js/taskManager.js"></script>
+    <script src="js/themeToggle.js"></script>
+    <script src="js/propagation.js"></script>
+    <script src="js/pipeline.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
