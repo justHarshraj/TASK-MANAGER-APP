@@ -1102,7 +1102,10 @@ select {
    Footer
    ========================================================================== */
 .app-footer {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
     padding: var(--space-3xl) var(--space-lg);
     color: var(--color-mute);
     font-family: var(--font-mono);
@@ -1112,6 +1115,47 @@ select {
     border-top: 1px solid var(--color-hairline);
     margin-top: var(--space-xl);
     transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.footer-desc {
+    font-size: 12px;
+}
+
+.footer-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xxs);
+}
+
+.creator {
+    font-size: 13px;
+    color: var(--color-body);
+}
+
+.text-bold {
+    font-weight: 600;
+}
+
+.footer-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.footer-link {
+    color: var(--color-mute);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+.footer-link:hover {
+    color: var(--color-link);
+}
+
+.link-divider {
+    color: var(--color-hairline-strong);
+    font-size: 10px;
 }
 
 /* ==========================================================================
