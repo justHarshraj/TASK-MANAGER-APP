@@ -1,62 +1,110 @@
-# TaskMaster Pro
+# TaskMaster Pro ⚡
 
-A fully interactive Task Manager Application built strictly with HTML, CSS, and Vanilla JavaScript. This project demonstrates core DOM manipulation, event handling, and understanding of the browser rendering pipeline.
+TaskMaster Pro is a premium, high-performance, framework-free task management application built using clean, semantic HTML5, modern vanilla CSS, and standard native JavaScript DOM APIs.
 
-## Features
+Featuring a dark/light interface inspired by Vercel's design aesthetics, this project is built both as a fully functional productivity tool and an educational platform demonstrating key browser mechanics, DOM manipulation strategies, and event workflows.
 
-* **Task Management**: Create, edit, complete, and delete tasks dynamically without page reloads.
-* **Theme Toggle**: Switch between dark and light modes, persisting the choice.
-* **Educational Demos**: Interactive sections demonstrating "Attributes vs. Properties" and "Event Propagation".
-* **Bonus Implementations**:
-    * LocalStorage persistence.
-    * Task search and category filtering.
-    * Real-time counters for pending and completed tasks.
-    * Optimized DOM rendering using `DocumentFragment`.
+---
 
-## Core Concepts Explained
+## 🚀 Features
 
-### 1. Browser Rendering Pipeline
+### 1. Task Creation & Lifecycle
+* **Dynamic Generation**: Add new tasks instantly. New task cards are rendered dynamically in memory and inserted directly into the DOM without page reloads.
+* **Inline Task Editing**: Edit titles inline. In edit mode, the task header is replaced dynamically with a focusable text input, accompanied by a dedicated Save button (`💾`).
+* **Complete & Delete States**: Toggle task statuses dynamically (marking them as completed or pending) or remove tasks with built-in slide-out fade animations.
 
-The journey from raw code to pixels on the screen follows a specific pipeline:
+### 2. Intelligent Event Architecture
+* **High-Performance Event Delegation**: Uses a single event listener attached to the parent container (`#task-list`) to manage clicks across all task cards, saving memory and ensuring newly added tasks automatically inherit click behaviors.
+* **Propagation Demo**: An interactive module executing both top-down **Event Capturing** (root to target) and bottom-up **Event Bubbling** (target to root), logging detailed execution orders to the browser console.
 
-1. **Parsing**: The browser receives raw bytes of HTML, converts them to characters, and parses them.
-2. **Tokenization**: The parser breaks the characters down into distinct tokens (e.g., StartTag, EndTag, Attribute).
-3. **DOM Tree Creation**: Tokens are converted into `Node` objects, which are linked together in a tree data structure called the Document Object Model (DOM).
-4. **CSSOM Tree Creation**: Concurrently, CSS is parsed into the CSS Object Model (CSSOM), a tree representing styles associated with nodes.
-5. **Render Tree**: The DOM and CSSOM are combined to form the Render Tree. It includes only the nodes required to render the page (e.g., it excludes `<head>` and nodes with `display: none`).
-6. **Layout (Reflow)**: The browser calculates the exact geometry (position and size) of each node in the Render Tree.
-7. **Paint**: Finally, the browser draws the pixels onto the screen layer by layer.
+### 3. Polish & Customization
+* **Enlarged Adaptive Theme Switcher**: Easily toggle between Dark Mode and Light Mode with a custom-engineered, tactile sliding switch.
+* **Category Tagging**: Organize tasks by custom domains: Work, Personal, Study, Health, or Other.
+* **Real-time Metrics**: Live dashboard counters tracking total, pending, and completed tasks.
+* **Search & Filters**: Instantly find tasks using typing search or category-specific pills.
+* **LocalStorage Persistence**: Automatically saves your tasks list and theme preference.
 
-### 2. Event Propagation
+---
 
-When an event (like a click) occurs on an element, it doesn't just happen there; it travels through the DOM.
+## 🛠️ Project Structure
 
-* **Event Capturing (Top-Down)**: The event starts at the root (Window/Document) and travels *down* the DOM tree to the target element.
-    * *Example Setup*: `element.addEventListener('click', handler, true)`
-* **Event Bubbling (Bottom-Up)**: After reaching the target, the event travels *up* from the target element back to the root. This is the default behavior.
-    * *Example Setup*: `element.addEventListener('click', handler, false)` (or simply omit the 3rd argument).
+The project is structured modularly to isolate concerns across different browser features:
 
-### 3. Event Delegation
+```text
+TASK MANAGER APP/
+├── css/
+│   └── style.css            # Base design system, custom CSS tokens, and animations
+├── js/
+│   ├── app.js               # Entry point; coordinates module initializations
+│   ├── pipeline.js          # Logic constructing the visual browser pipeline
+│   ├── propagation.js       # Capturing/Bubbling simulator and console logger
+│   ├── storage.js           # LocalStorage CRUD operations
+│   ├── taskManager.js       # Core DOM manipulator, task CRUD, and delegation
+│   └── themeToggle.js       # Dark/Light mode theme control
+├── index.html               # Semantic HTML markup, structured SEO, and layout
+├── README.md                # Project documentation
+└── DESIGN.md                # Design specifications
+```
 
-Instead of attaching a separate event listener to every single task card (which is bad for performance and memory, especially for dynamically created elements), we use **Event Delegation**.
+---
 
-We attach *one* single event listener to the parent container (`#task-list`). Since events bubble up, any click on a child element (like a delete button) will eventually reach the parent container. The parent's listener catches it, and we use `event.target` to determine exactly which element triggered the event and respond accordingly.
+## 📖 Deep Dive: Core Web Concepts
 
-### 4. Attributes vs. Properties
+### 1. The Browser Rendering Pipeline
+How raw HTML/CSS strings turn into interactive pixels on your monitor:
+1. **HTML Parsing & Tokenization**: Raw bytes of HTML are converted into characters, tokenized (tag starts, tag ends, attributes), and mapped into DOM Node objects.
+2. **DOM Tree Construction**: These nodes are linked into the **Document Object Model (DOM)** tree.
+3. **CSSOM Tree Construction**: Concurrently, style sheets are parsed into the **CSS Object Model (CSSOM)** tree.
+4. **Render Tree Generation**: The DOM and CSSOM trees are merged into the **Render Tree**, which contains only the visible elements to be drawn.
+5. **Layout (Reflow)**: The browser calculates coordinates, sizing, and geometric boundaries of every render tree node.
+6. **Paint**: The browser paints the pixels onto layers of the viewport.
+7. **Composite**: Layers are stitched together and rendered on-screen.
 
-* **Attributes**: Defined in the HTML markup (e.g., `<input value="Hello">`). They are always strings and represent the *initial* state. Accessed via `element.getAttribute('name')`.
-* **Properties**: Live on the DOM object in JavaScript memory. They represent the *current* state and can be of any type (booleans, objects, etc.). Accessed via dot notation, e.g., `element.value`.
+### 2. Event Propagation (Bubbling vs. Capturing)
+When an event occurs, it travels along a propagation path:
+* **Event Capturing (Top-Down)**: The event moves from the top of the tree (`Window`, `Document`, `HTML`, `Body`) down to the target node. Registered using:
+  ```javascript
+  element.addEventListener('click', handler, true); // true sets capture phase
+  ```
+* **Event Bubbling (Bottom-Up)**: The default behavior. Once the target is hit, the event travels back up the DOM tree to the root. Registered using:
+  ```javascript
+  element.addEventListener('click', handler, false); // or default parameter omission
+  ```
 
-*Example*: If a user types "World" into the input above:
-* `input.getAttribute('value')` will still return `"Hello"` (the initial HTML attribute).
-* `input.value` will return `"World"` (the current property value).
+### 3. Attributes vs. Properties
+* **HTML Attribute**: Defined inside the initial HTML source code markup. They always remain strings and represent the *initial state* of the element.
+  * Access: `element.getAttribute('value')`
+* **DOM Property**: Represents the live, in-memory representation inside the JavaScript engine. They can hold any data type and track the *current state*.
+  * Access: `element.value`
 
-## How to Run
+*Example*: When you type into a text input, the DOM *property* `input.value` updates dynamically in memory to match your text, while the *attribute* `input.getAttribute('value')` remains static at its initial HTML definition.
 
-1. Clone this repository.
-2. Open `index.html` in your web browser, or serve it using a local development server (e.g., VS Code Live Server).
+---
 
-## Deployment
+## 🧩 Native JavaScript DOM APIs Used
 
-*(Replace with actual deployment link once hosted on Netlify, Vercel, or GitHub Pages)*
-Live Demo: [Link Here]
+This application deliberately avoids frameworks and libraries to leverage native web API power:
+
+* **Creation & Nodes**: `document.createElement()`, `document.createTextNode()`
+* **Hierarchy insertion**: `.appendChild()`, `.append()`, `.prepend()`
+* **Positional insertion**: `.before()`, `.after()`
+* **Structural replacement**: `.replaceWith()`
+* **Removal**: `.remove()`
+* **Attributes**: `.setAttribute()`, `.getAttribute()`, `.removeAttribute()`, `.hasAttribute()`, and `.dataset` properties
+* **Classes**: `.classList.add()`, `.classList.remove()`
+* **Events**: `addEventListener()`
+
+---
+
+## 💻 Running the Application
+
+1. Clone or download this project folder.
+2. Serve `index.html` using a simple HTTP server (e.g. `npx serve .` or VS Code Live Server) or simply double-click the `index.html` file to open it in your browser.
+
+---
+
+## 👨‍💻 Created By
+
+**Harsh Raj**
+* [LinkedIn](https://www.linkedin.com/in/harsh-raj-533826287)
+* [GitHub](https://github.com/justHarshraj)
