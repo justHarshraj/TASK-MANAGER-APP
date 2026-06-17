@@ -956,6 +956,25 @@ select {
     box-shadow: 0 0 0 1px var(--color-ink);
 }
 
+.edit-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs);
+}
+
+.save-btn {
+    display: none !important;
+}
+
+.task-card.editing .save-btn {
+    display: flex !important;
+}
+
+.icon-btn.save-btn:hover {
+    color: var(--color-success);
+    border-color: rgba(0, 112, 243, 0.2);
+}
+
 /* ==========================================================================
    Browser Rendering Pipeline
    ========================================================================== */

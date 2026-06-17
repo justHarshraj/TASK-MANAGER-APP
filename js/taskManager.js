@@ -50,6 +50,8 @@ const TaskManager = {
                 this.toggleComplete(card);
             } else if (target.closest('.edit-btn')) {
                 this.editTask(card);
+            } else if (target.closest('.save-btn')) {
+                this.editTask(card);
             }
         });
 
@@ -184,11 +186,19 @@ const TaskManager = {
         };
 
         const completeBtn = createBtn('complete-btn', task.status === 'completed' ? '↺' : '✓', 'Toggle Complete');
+        
+        // Wrap Edit and Save buttons to allow Save below Edit
+        const editGroup = document.createElement('div');
+        editGroup.className = 'edit-group';
+        
         const editBtn = createBtn('edit-btn', '✎', 'Edit Task');
+        const saveBtn = createBtn('save-btn', '💾', 'Save Task');
+        editGroup.append(editBtn, saveBtn);
+        
         const deleteBtn = createBtn('delete-btn', '✕', 'Delete Task');
 
         // 3️⃣ DOM Manipulation: append() (can take multiple nodes)
-        actionsDiv.append(completeBtn, editBtn, deleteBtn);
+        actionsDiv.append(completeBtn, editGroup, deleteBtn);
 
         const metaDiv = document.createElement('div');
         metaDiv.className = 'task-meta';
@@ -283,17 +293,23 @@ const TaskManager = {
      * Edit a task
      */
     editTask(card) {
-        // 2️⃣ ATTRIBUTES VS PROPERTIES: hasAttribute()
-        if (card.hasAttribute('data-editing')) return; // Already editing
-        
-        // Set custom attribute to track editing state
-        card.setAttribute('data-editing', 'true');
-        
         const id = card.dataset.id;
         const task = this.tasks.find(t => t.id === id);
         if (!task) return;
 
+        // If already editing, save
+        if (card.hasAttribute('data-editing')) {
+            const input = card.querySelector('.edit-input');
+            if (input) {
+                input.blur(); // Triggers blur which saves the content
+            }
+            return;
+        }
+        
+        // Set custom attribute to track editing state
+        card.setAttribute('data-editing', 'true');
         card.classList.add('editing');
+        
         const titleEl = card.querySelector('.task-title');
         const currentTitle = titleEl.textContent;
         
