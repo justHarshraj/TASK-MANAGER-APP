@@ -6,7 +6,7 @@ Featuring a dark/light interface inspired by Vercel's design aesthetics, this pr
 
 ## 🔗 Live Link
 
-Check out the live deployment of TaskMaster Pro here: [https://justharshraj.github.io/TASK-MANAGER-APP/](https://justharshraj.github.io/TASK-MANAGER-APP/)
+Check out the live deployment of TaskMaster Pro here: [https://justharshraj.github.io/TASK-MANAGER-APP/](https://justharshraj.github.io/TASKMASTER-PRO/)
 
 ---
 
